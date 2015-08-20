@@ -86,8 +86,9 @@ RUN apt-get update \
 	&& cd /tmp/dev/hhvm \
 	&& git submodule update --init --recursive \
 	&& cmake . \
-	&& make \
-	&& cp /tmp/dev/hhvm/hphp/hhvm/hhvm /usr/bin/ \
+	&& make -j"$(nproc)" \
+	&& make install \
+	&& make clean \
 	&& rm -rf /tmp/dev \
 	&& apt-get purge -y --auto-remove \
 		autoconf \
@@ -121,6 +122,8 @@ RUN apt-get update \
 		libc-client2007e \
 		libmagickwand-dev \
 		libvpx1 \
+	&& apt-get autoremove --purge \
 	&& rm -rf /var/lib/apt/lists/*
 
-CMD /usr/bin/hhvm
+ENTRYPOINT /usr/local/bin/hhvm
+CMD -m server
