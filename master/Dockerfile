@@ -122,7 +122,7 @@ RUN apt-get update \
 		libc-client2007e \
 		libmagickwand-dev \
 		libvpx1 \
-	&& apt-get autoremove --purge \
+	&& apt-get autoremove --purge -y \
 	&& rm -rf /var/lib/apt/lists/*
 
 ENTRYPOINT /usr/local/bin/hhvm
