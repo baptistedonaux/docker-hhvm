@@ -125,5 +125,5 @@ RUN apt-get update \
 	&& apt-get autoremove --purge -y \
 	&& rm -rf /var/lib/apt/lists/*
 
-ENTRYPOINT /usr/local/bin/hhvm
-CMD -m server
+ENTRYPOINT ["/usr/local/bin/hhvm"]
+CMD ["-m", "server", "-vServer.Type=fastcgi", "-vServer.Port=9000"]
