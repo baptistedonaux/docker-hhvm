@@ -1,6 +1,8 @@
 FROM debian:8
 MAINTAINER Baptiste Donaux <baptiste.donaux@gmail.com>
 
+ENV HHVM_VERSION MASTER
+
 RUN apt-get update \
 	&& apt-get install -y --no-install-recommends \
 		autoconf \
@@ -124,6 +126,8 @@ RUN apt-get update \
 		libvpx1 \
 	&& apt-get autoremove --purge -y \
 	&& rm -rf /var/lib/apt/lists/*
+
+EXPOSE 9000
 
 ENTRYPOINT ["/usr/local/bin/hhvm"]
 CMD ["-m", "server", "-vServer.Type=fastcgi", "-vServer.Port=9000"]
