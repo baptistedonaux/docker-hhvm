@@ -1,133 +1,14 @@
-FROM debian:8
-MAINTAINER Baptiste Donaux <baptiste.donaux@gmail.com>
+FROM debian:jessie
 
-ENV HHVM_VERSION MASTER
+ENV HHVM_VERSION 3.9.1~jessie
 
-RUN apt-get update \
-	&& apt-get install -y --no-install-recommends \
-		autoconf \
-		automake \
-		binutils \
-		binutils-dev \
-		build-essential \
-		ca-certificates \
-		cmake \
-		cmake-data \
-		cpp \
-		g++ \
-		g++-4.8 \
-		gawk \
-		gcc \
-		gcc-4.8 \
-		git-core \
-		gperf \
-		libacl1 \
-		libarchive13 \
-		libattr1 \
-		libboost-context1.55-dev \
-		libboost-filesystem1.55-dev \
-		libboost-program-options1.55-dev \
-		libboost-regex1.55-dev \
-		libboost-system1.55-dev \
-		libboost-thread-dev \
-		libboost-thread1.55.0 \
-		libbz2-dev \
-		libc-bin \
-		libc-client2007e-dev \
-		libc-dev-bin \
-		libc6 \
-		libc6-dev \
-		libcap-dev \
-		libcloog-ppl-dev \
-		libcurl4-openssl-dev \
-		libdwarf-dev \
-		libelf-dev \
-		libevent-dev \
-		libgcc1 \
-		libgd2-xpm-dev \
-		libgomp1 \
-		libgoogle-glog-dev \
-		libgoogle-perftools-dev \
-		libiberty-dev \
-		libicu-dev \
-		libjemalloc-dev \
-		libkrb5-dev \
-		libldap2-dev \
-		libmagickwand-dev \
-		libmcrypt-dev \
-		libmemcached-dev \
-		libmpfr4 \
-		libmysqlclient-dev \
-		libncurses5-dev \
-		libonig-dev \
-		libpcre3-dev \
-		libreadline-dev \
-		libstdc++-4.8-dev \
-		libstdc++6 \
-		libtbb-dev \
-		libtbb2 \
-		libtool \
-		libunwind8-dev \
-		libxml2-dev \
-		libxslt-dev \
-		libyaml-dev \
-		make \
-		memcached \
-		ocaml-native-compilers \
-		openssl \
-		php5-imagick \
-		php5-mcrypt \
-		pkg-config \
-		subversion \
-		wget \
-		zlib1g-dev \
-	&& mkdir /tmp/dev \
-	&& cd /tmp/dev \
-	&& git clone git://github.com/facebook/hhvm.git --depth=1 \
-	&& export CMAKE_PREFIX_PATH=`pwd` \
-	&& cd /tmp/dev/hhvm \
-	&& git submodule update --init --recursive \
-	&& cmake . \
-	&& make -j"$(nproc)" \
-	&& make install \
-	&& make clean \
-	&& rm -rf /tmp/dev \
-	&& apt-get purge -y --auto-remove \
-		autoconf \
-		automake \
-		binutils \
-		binutils-dev \
-		build-essential \
-		ca-certificates \
-		cmake \
-		cmake-data \
-		cpp \
-		g++ \
-		g++-4.8 \
-		gawk \
-		gcc \
-		gcc-4.8 \
-		git-core \
-		gperf \
-		libtcmalloc-minimal4 \
-		make \
-		memcached \
-		ocaml-native-compilers \
-		openssl \
-		php5-imagick \
-		php5-mcrypt \
-		pkg-config \
-		subversion \
-		wget \
-		zlib1g-dev \
-	&& apt-get install -y --no-install-recommends \
-		libc-client2007e \
-		libmagickwand-dev \
-		libvpx1 \
-	&& apt-get autoremove --purge -y \
-	&& rm -rf /var/lib/apt/lists/*
+RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0x5a16e7281be7a449 \
+	&& echo 'deb http://dl.hhvm.com/debian jessie-lts-3.9 main' > /etc/apt/sources.list.d/hhvm.list \
+	&& apt-get update && apt-get install -y --no-install-recommends \
+        hhvm=$HHVM_VERSION \
+    && rm -rf /var/lib/apt/lists/*
 
 EXPOSE 9000
 
-ENTRYPOINT ["/usr/local/bin/hhvm"]
+ENTRYPOINT ["hhvm"]
 CMD ["-m", "server", "-vServer.Type=fastcgi", "-vServer.Port=9000"]
