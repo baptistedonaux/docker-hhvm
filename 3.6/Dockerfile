@@ -8,7 +8,8 @@ RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0x5a16e728
         hhvm=$HHVM_VERSION \
     && rm -rf /var/lib/apt/lists/*
 
+COPY entrypoint.sh /entrypoint.sh
+
 EXPOSE 9000
 
-ENTRYPOINT ["hhvm"]
-CMD ["-m", "server", "-vServer.Type=fastcgi", "-vServer.Port=9000"]
+ENTRYPOINT ["/entrypoint.sh"]
