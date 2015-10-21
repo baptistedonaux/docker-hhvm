@@ -28,7 +28,7 @@ for version in "${versions[@]}"; do
 	echo
 	for va in "${versionAliases[@]}"; do
 		if [ $va != "master" ] ; then
-			echo "$va: ${url}@${commit} $version"
+			echo "$va: ${url}@${commit} hhvm/$version"
 		fi
 	done
 done
