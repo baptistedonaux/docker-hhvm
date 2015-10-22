@@ -10,7 +10,7 @@ cd "$(dirname "$(readlink -f "$BASH_SOURCE")")"
 
 versions=( */ )
 versions=( "${versions[@]%/}" )
-url='git://github.com/baptistedonaux/docker-images'
+url='git://github.com/baptistedonaux/docker-hhvm'
 
 echo '# maintainer: Baptiste Donaux <baptiste.donaux@gmail.com> (@baptistedonaux)'
 
@@ -28,7 +28,7 @@ for version in "${versions[@]}"; do
 	echo
 	for va in "${versionAliases[@]}"; do
 		if [ $va != "master" ] ; then
-			echo "$va: ${url}@${commit} hhvm/$version"
+			echo "$va: ${url}@${commit} $version"
 		fi
 	done
 done
