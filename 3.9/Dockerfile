@@ -11,4 +11,7 @@ RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0x5a16e728
 
 EXPOSE 9000
 
+COPY entrypoint.sh /
+ENTRYPOINT ["/entrypoint.sh"]
+
 CMD ["hhvm", "-m", "server", "-vServer.Type=fastcgi", "-vServer.Port=9000"]
