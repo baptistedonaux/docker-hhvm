@@ -1,9 +1,9 @@
 FROM debian:jessie
 
-ENV HHVM_VERSION 3.12.14~jessie
+ENV HHVM_VERSION 
 
 RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0x5a16e7281be7a449 \
-	&& echo 'deb http://dl.hhvm.com/debian jessie-lts-3.12 main' > /etc/apt/sources.list.d/hhvm.list \
+	&& echo 'deb http://dl.hhvm.com/debian jessie-lts-3.17 main' > /etc/apt/sources.list.d/hhvm.list \
 	&& apt-get update \
 	&& apt-get install -y --no-install-recommends \
         ca-certificates \
